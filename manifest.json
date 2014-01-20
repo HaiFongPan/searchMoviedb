@@ -4,7 +4,8 @@
     "manifest_version": 2,
     "description": "Search Movie from douban",
     "permissions":[
-        "https://api.douban.com/*"
+        "https://*.douban.com/*",
+        "http://*.douban.com/*"
         ],
     "page_action": {  
         "default_title": "searchMovie"

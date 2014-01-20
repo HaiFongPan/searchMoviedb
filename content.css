@@ -8,6 +8,7 @@
   background:#f7f7f7;
 }
 #Pic {width:100px;margin:5px 0px 0px 5px;height:160px;background:#f7f7f7;float:left;}
+#Pic .imgs{}
 #Content {width:300px;margin:5px 0px 0px -5px;height:160px;background:#f7f7f7;float:left;}
 #Summary {background-color:#EEEEEE;margin:auto; height:auto; width:400px; float:left;}
 #Content .Info {
