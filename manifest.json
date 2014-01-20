@@ -1,0 +1,19 @@
+{  
+    "name": "searchMovie",
+    "version": "0.0.1",
+    "manifest_version": 2,
+    "description": "Search Movie from douban",
+    "permissions":[
+        "https://api.douban.com/*"
+        ],
+    "page_action": {  
+        "default_title": "searchMovie"
+    }, 
+    "content_scripts": 
+    [{
+            "matches": ["http://*/*","https://*/*"],
+            "css": ["content.css"],
+            "js": ["js/jquery.js","func.js"]
+    }],
+    "web_accessible_resources":["js/jquery.min.map"]
+}
