@@ -58,7 +58,7 @@ function GetMovieById(id){
                 if(i!=0)
                     li += '/'
             };
-        　  li = li + '</li></ul></div><div id="Summary"><li class ="summary">'+json.summary+'</li></div>'
+            li = li + '</li></ul></div><div id="Summary"><li class ="summary">'+json.summary+'</li></div>'
             console.log(li)
             buildDomTree(li)
         }
