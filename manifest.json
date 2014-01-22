@@ -14,7 +14,7 @@
     [{
             "matches": ["http://*/*","https://*/*"],
             "css": ["content.css"],
-            "js": ["js/jquery.js","func.js"]
+            "js": ["js/jquery.js","js/jquery.loadJSON.js","func.js"]
     }],
     "web_accessible_resources":["js/jquery.min.map"]
 }
