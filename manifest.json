@@ -10,6 +10,9 @@
     "page_action": {  
         "default_title": "searchMovie"
     }, 
+    "icons": {
+      "48": "pic/icon.png"
+    },
     "content_scripts": 
     [{
             "matches": ["http://*/*","https://*/*"],
