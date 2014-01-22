@@ -19,6 +19,5 @@
 
 ### 效果
 
-![如图](/Pic/example.png?raw=true)<br>
-
+![如图](pic/example.png?raw=true)<br>
 
