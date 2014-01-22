@@ -13,6 +13,12 @@
 
 
 ### 使用方法
+* 下载本包解压到任意目录
+* 在Chrome 打开 chrome://extensions/ ，勾上开发者模式，手动加载本插件
 * 选中词语，快捷键alt+w触发
+
+### 效果
+
+![如图](pic/example.png?raw=true)<br>
 
 
