@@ -4,6 +4,15 @@
  *3. 通过api获取对应id的具体内容
  *4. 构建DOM树，显示
  */
+var DomTree ='<a e="pre" style="display:none;text-decoration:none">'+
+        '<span class ="prev" e="pre">< 上一部</span></a><a e="next" style="display:none;text-decoration:none"><span e="next" class = "next">下一部 ></span></a>'+
+        '<div id="Pic"><img class ="imgs" src="" width =92 height=132 /></div><div id="Content">'+
+        '<ul><li class="Info" >片名：<a title="" target="_blank" href="" ><span id = "mtitle"></span></a></li>'+
+        '<li class = "Info"><span class="Stars" style="background-position: 0;0px;">'+
+        '<strong><p class="average"><span id = "average"></span></p></strong></span>'+
+        '</li><br><li class = "Info" id = "countries"></li><li class = "Info" id = "genres"></li>'+
+        '<li class= "gray" id = "directors"></li><li class= "gray" id ="actor"></li></ul>'+
+        '</div><div id="Summary"><li class ="summary" id = "summary"></li></div></div>'
 document.body.onkeyup = Press;
 document.body.onclick = onClick;
 document.body.onmousedown = getPos;
@@ -58,55 +67,13 @@ function GetMovieById(id,rebuild,displayN){
     url = "https://api.douban.com/v2/movie/subject/"+id
     $.get(url,function(json){
         if(json){
+            var data = transJsonToData(json)
             if(!rebuild){
-                var li = '<div id="Pic"><img class ="imgs" src="'+json.images.large+'" width =92 height=132 ></div>'+
-                         '<div id="Content"><ul><li class="Info">片名： <a title="' + json.title + '" target="_blank" href="' + json.alt + '">'+json.title+'</a></li>'+
-                         '<li class = "Info"><span class="Stars" style="background-position: 0 '+whichStar(json.rating.average)+'px;"><strong><p class="average">'+json.rating.average+'</p></strong></span>'+
-                         '</li><br><li class = "Info">'+json.countries+'</li><li class = "Info">'+json.genres+'</li><li class= "gray">导演：';
-                
-                for (var i = 0; i <= json.directors.length - 1; i++) {
-                    if(i!=0)
-                        li += '/'
-                    li = li + json.directors[i].name
-                    
-                };
-                li = li +'</li><li class= "gray" id ="actor">主演：'
-                for (var i = 0; i <= json.casts.length - 1; i++) {
-                    if(i!=0)
-                        li += '/'
-                    li = li + json.casts[i].name
-                };
-                li = li + '</li></ul></div><div id="Summary"><li class ="summary">简介：<br>'+json.summary+'</li></div>'
-                buildDomTree(li,displayN)
-            }else{
-                Rebuild(json)
+                appendDom(displayN)
             }
+            loadData(data)
         }
     })
-}
-function buildDomTree(movieInfo,displayN){
-    var domTree =[];
-    domTree.push('<div style="left:',leftpx,'px;top:',
-                    toppx,'px" class="Movie"><span class ="prev"><a e="pre" style="display:none;text-decoration:none">< 上一部</a></span><span class = "next"><a e="next" style="display:'+displayN+';text-decoration:none">下一部 ></a></span>',movieInfo,
-                    '</div>')
-    var movieDom = $(domTree.join(''))[0]
-    movieDom.onmousedown = function( e){
-        e.stopPropagation();
-    }
-    movieDom.onmouseup = function( e){
-        e.stopPropagation();
-    }
-    movieDom.onclick = function(e){
-        var target = e.target;
-        var _event = target.getAttribute( 'e');
-        if(_event == "next"){
-            NextItem();
-        }else if(_event == "pre"){
-            PreItem();
-        }
-    }
-    document.body.appendChild(movieDom)
-    doubanMovieDom = movieDom
 }
 function whichStar( average){
     var num = ( 11 *( parseInt( average) /10)).toFixed(0)  * 15 - 165;
@@ -135,29 +102,71 @@ function PreItem(){
         GetMovieById(obj.id,true)
     }
 }
-//重构DOM树
-function Rebuild(obj){
-    
+function appendDom(displayN){
+    var dom = '<div id="movie" class="Movie" style="left:'+leftpx+'px;top:'+toppx+'px">' + DomTree
+    doubanMovieDom = $(dom)[0]
+    var pageNext = doubanMovieDom.getElementsByTagName("a")[1];
+    pageNext.style['display'] = displayN
+    doubanMovieDom.onmousedown = function( e){
+        e.stopPropagation();
+    }
+    doubanMovieDom.onmouseup = function( e){
+        e.stopPropagation();
+    }
+    doubanMovieDom.onclick = function(e){
+
+        var target = e.target;
+        var _event = target.getAttribute( 'e');
+        if(_event == "next"){
+            console.log("next")
+            NextItem();
+        }else if(_event == "pre"){
+            console.log("pre")
+            PreItem();
+        }
+    }
+    document.body.appendChild(doubanMovieDom)
+}
+
+function transJsonToData(json){
+    var directors = ''
+    var actors = ''
+    for (var i = 0; i <= json.directors.length - 1; i++) {
+        if(i!=0)
+            directors += '/'
+        directors = directors + json.directors[i].name
+        
+    }
+    for (var i = 0; i <= json.casts.length - 1; i++) {
+        if(i!=0)
+            actors += '/'
+        actors = actors + json.casts[i].name
+    }
+    var data = {
+                "link":json.alt,
+                "mtitle":json.title,
+                "average":json.rating.average,
+                "countries":'国家：'+json.countries,
+                "genres":'类型：'+json.genres,
+                "directors":'导演：'+directors,
+                "actor":'演员：'+actors,
+                "summary":'简介：<br>'+json.summary,
+                "stars": whichStar( json.rating.average),
+                "imgsrc":json.images.small
+        } 
+    return data
+}
+
+function loadData (data) {
+    // body...
+    var title = doubanMovieDom.getElementsByTagName("a")[2]
     var image = doubanMovieDom.getElementsByClassName("imgs")[0]
     var stars = doubanMovieDom.getElementsByClassName("Stars")[0]
-    var average = doubanMovieDom.getElementsByTagName("p")[0];
-    //var ratings_count = doubanMovieDom.getElementsByTagName("p")[1];
-    var pagePre = doubanMovieDom.getElementsByTagName("a")[0];
-    var pageNext = doubanMovieDom.getElementsByTagName("a")[1];
-    var title = doubanMovieDom.getElementsByTagName("a")[2];
-    var info = doubanMovieDom.getElementsByClassName("Info")
-    
-    var countries = info[2]
-    var genres = info[3]
-
-    var gray = doubanMovieDom.getElementsByClassName("gray")
-    var directors = gray[0]
-    var actors = gray[1]
-
-    var summary = doubanMovieDom.getElementsByClassName("summary")[0]
-    
-    image.src = obj.images.small
-    stars.style[ 'background-position-y'] = whichStar( obj.rating.average) + "px";
+    var pagePre = doubanMovieDom.getElementsByTagName("a")[0]
+    var pageNext = doubanMovieDom.getElementsByTagName("a")[1]
+    image.src = data.imgsrc
+    stars.style[ 'background-position-y'] =  data.stars+ "px"
+    title.href = data.link
     if(allResults.current == allResults.movies[0].total-1){
         pageNext.style['display'] = 'none'
     }else{
@@ -168,26 +177,5 @@ function Rebuild(obj){
     }else{
         pagePre.style['display'] = ''
     }
-    title.href= obj.alt
-    title.title= obj.title
-    title.innerHTML = obj.title
-    average.innerHTML = obj.rating.average
-    //ratings_count.innerHTML = obj.ratings_count
-    countries.innerHTML = obj.countries
-    genres.innerHTML = obj.genres
-    directors.innerHTML ='导演：'
-    actors.innerHTML ='演员：'
-    for (var i = 0; i <= obj.directors.length - 1; i++) {
-        if(i!=0)
-            directors.innerHTML += '/'
-        directors.innerHTML = directors.innerHTML + obj.directors[i].name
-        
-    }
-    for (var i = 0; i <= obj.casts.length - 1; i++) {
-        if(i!=0)
-            actors.innerHTML += '/'
-        actors.innerHTML = actors.innerHTML + obj.casts[i].name
-        
-    }
-    summary.innerHTML = '简介：<br>'+obj.summary
+    $('div#movie').loadJSON(data);
 }
