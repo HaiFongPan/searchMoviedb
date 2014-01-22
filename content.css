@@ -7,6 +7,17 @@
   border: 1px solid rgb(207, 207, 207);
   background:#f7f7f7;
 }
+.Movie .prev{
+  margin-right: 20px;
+  margin-left: 20px;
+  text-decoration:none
+}
+.Movie .next{
+  margin-left: 20px;
+  margin-right: 20px;
+  float:right;
+  text-decoration:none
+}
 #Pic {width:100px;margin:5px 0px 0px 5px;height:160px;background:#f7f7f7;float:left;}
 #Pic .imgs{}
 #Content {width:300px;margin:5px 0px 0px -5px;height:160px;background:#f7f7f7;float:left;}
@@ -23,13 +34,21 @@
 #Content .Info span.Stars {
   display: inline;
   float: left;
-  padding: 0 10px 0 75px;
+  padding: 0 20px 0 75px;
   line-height: 15px;
   height: 15px;
   background: url('http://img3.douban.com/f/shire/e60f0c9a8f60fec48a229ae9e93aea63485b2e70/pics/all_bigstars.gif') 0 0 no-repeat;
 }
 #Content .Info a:link { text-decoration: none;color: blue}
-#Content .Info p{color:red;margin:0px 0px 0px 0px;}
+#Content .average {
+  color:#f56d4c;
+  margin:0px 0px 0px 8px;
+  font-size: 13px
+}
+#Content .ratings {
+  margin:0px 0px 0px 8px;
+  font-size: 13px
+}
 #Summary .summary {
   list-style-type: none;
   word-break: break-all;
