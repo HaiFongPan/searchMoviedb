@@ -46,7 +46,6 @@ function GetMovie(filmName,start,rebuild){
     $.get(url,function(json){
         if(json.total >0){
             allResults.movies.push(json)
-            console.log(allResults.movies)
             var obj = json.subjects[0]
             var displayN = json.total > 1 ?'':'none'
             GetMovieById(obj.id,rebuild,displayN)
@@ -77,7 +76,7 @@ function GetMovieById(id,rebuild,displayN){
                         li += '/'
                     li = li + json.casts[i].name
                 };
-                li = li + '</li></ul></div><div id="Summary"><li class ="summary">'+json.summary+'</li></div>'
+                li = li + '</li></ul></div><div id="Summary"><li class ="summary">简介：<br>'+json.summary+'</li></div>'
                 buildDomTree(li,displayN)
             }else{
                 Rebuild(json)
@@ -123,7 +122,6 @@ function NextItem () {
             GetMovie(filmName,allResults.current,true)
         }
         else{ //否则直接从对应页取id
-            console.log(allResults.current/20,allResults.current%20)
             var obj = allResults.movies[Math.floor(allResults.current/20)].subjects[allResults.current%20]
             GetMovieById(obj.id,true)
         }
@@ -146,8 +144,9 @@ function Rebuild(obj){
     //var ratings_count = doubanMovieDom.getElementsByTagName("p")[1];
     var pagePre = doubanMovieDom.getElementsByTagName("a")[0];
     var pageNext = doubanMovieDom.getElementsByTagName("a")[1];
+    var title = doubanMovieDom.getElementsByTagName("a")[2];
     var info = doubanMovieDom.getElementsByClassName("Info")
-    var title = info[0]
+    
     var countries = info[2]
     var genres = info[3]
 
@@ -169,6 +168,8 @@ function Rebuild(obj){
     }else{
         pagePre.style['display'] = ''
     }
+    title.href= obj.alt
+    title.title= obj.title
     title.innerHTML = obj.title
     average.innerHTML = obj.rating.average
     //ratings_count.innerHTML = obj.ratings_count
@@ -188,10 +189,5 @@ function Rebuild(obj){
         actors.innerHTML = actors.innerHTML + obj.casts[i].name
         
     }
-    summary.innerHTML = obj.summary
+    summary.innerHTML = '简介：<br>'+obj.summary
 }
-function imgError(e) {
-    // body...
-    console.log('imgError',e)
-}
-
