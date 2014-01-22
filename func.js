@@ -13,7 +13,7 @@ allResults.movies =[]
 allResults.current = 0
 var leftpx;
 var toppx;
-var filmName;
+var filmName ='';
 function getPos(e){
     leftpx = e.clientX
     toppx = e.clientY
@@ -30,8 +30,10 @@ function onClick(e){
 }
 function Press(e){
     if(e.altKey ==true && e.keyCode == 87){
-        var selection = window.getSelection();
-        filmName = selection.toString();
+        var selection = window.getSelection()
+        filmName = selection.toString()
+        allResults.movies = []
+        allResults.current = 0
         GetMovie(filmName,0,false)
     }else if( e.keyCode == 27){
         if(doubanMovieDom){
@@ -54,13 +56,13 @@ function GetMovie(filmName,start,rebuild){
     })
 }
 function GetMovieById(id,rebuild,displayN){
-    url = "http://api.douban.com/v2/movie/subject/"+id
+    url = "https://api.douban.com/v2/movie/subject/"+id
     $.get(url,function(json){
         if(json){
             if(!rebuild){
-                var li = '<div id="Pic"><img class ="imgs" src="'+json.images.small+'"width =92 height=132 ></div>'+
+                var li = '<div id="Pic"><img class ="imgs" src="'+json.images.large+'" width =92 height=132 ></div>'+
                          '<div id="Content"><ul><li class="Info">片名： <a title="' + json.title + '" target="_blank" href="' + json.alt + '">'+json.title+'</a></li>'+
-                         '<li class = "Info"><span class="Stars" style="background-position: 0 '+whichStar(json.rating.average)+'px;"><strong><p>'+'   '+json.rating.average+'</p></strong></span>'+
+                         '<li class = "Info"><span class="Stars" style="background-position: 0 '+whichStar(json.rating.average)+'px;"><strong><p class="average">'+json.rating.average+'</p></strong></span>'+
                          '</li><br><li class = "Info">'+json.countries+'</li><li class = "Info">'+json.genres+'</li><li class= "gray">导演：';
                 
                 for (var i = 0; i <= json.directors.length - 1; i++) {
@@ -86,7 +88,7 @@ function GetMovieById(id,rebuild,displayN){
 function buildDomTree(movieInfo,displayN){
     var domTree =[];
     domTree.push('<div style="left:',leftpx,'px;top:',
-                    toppx,'px" class="Movie"><span style="float: right;"><a e="pre" style="display:none;padding-right: 190px;">上一部</a><a e="next" style="display:'+displayN+';padding-right: 20px;">下一部</a></span>',movieInfo,
+                    toppx,'px" class="Movie"><span class ="prev"><a e="pre" style="display:none;text-decoration:none">< 上一部</a></span><span class = "next"><a e="next" style="display:'+displayN+';text-decoration:none">下一部 ></a></span>',movieInfo,
                     '</div>')
     var movieDom = $(domTree.join(''))[0]
     movieDom.onmousedown = function( e){
@@ -141,6 +143,7 @@ function Rebuild(obj){
     var image = doubanMovieDom.getElementsByClassName("imgs")[0]
     var stars = doubanMovieDom.getElementsByClassName("Stars")[0]
     var average = doubanMovieDom.getElementsByTagName("p")[0];
+    //var ratings_count = doubanMovieDom.getElementsByTagName("p")[1];
     var pagePre = doubanMovieDom.getElementsByTagName("a")[0];
     var pageNext = doubanMovieDom.getElementsByTagName("a")[1];
     var info = doubanMovieDom.getElementsByClassName("Info")
@@ -168,6 +171,7 @@ function Rebuild(obj){
     }
     title.innerHTML = obj.title
     average.innerHTML = obj.rating.average
+    //ratings_count.innerHTML = obj.ratings_count
     countries.innerHTML = obj.countries
     genres.innerHTML = obj.genres
     directors.innerHTML ='导演：'
@@ -185,5 +189,9 @@ function Rebuild(obj){
         
     }
     summary.innerHTML = obj.summary
+}
+function imgError(e) {
+    // body...
+    console.log('imgError',e)
 }
 
