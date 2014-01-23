@@ -6,12 +6,12 @@
  */
 var DomTree = '<span  class="prev"><a e="pre" style="display:none" e="pre"> &lt; 上一部</a></span>' +
     '<span class="next"><a e="next" style="" >下一部 &gt;</a></span>' +
-    '<div id="Pic"><img class ="imgs" src="" width =90 height=130 /></div><div id="Content">' +
+    '<div id="Pic"><img class ="imgs" src="" width =95 /></div><div id="Content">' +
     '<ul><li class="Info" >片名：<a title="" target="_blank" href="" ><span e = "openmovie" id = "mtitle"></span></a></li>' +
-    '<li class = "Info"><span class="Stars" style="background-position: 0;0px;">' +
-    '<strong><p class="average"><span id = "average"></span></p></strong></span>' +
-    '</li><br><li class = "Info" id = "countries"></li><li class = "Info" id = "genres"></li>' +
-    '<li class= "gray" id = "directors"></li><li class= "gray" id ="actor"></li></ul>' +
+    '<li class = "Info"><span class="Stars">' +
+    '<strong><p class="average"><span id = "daverage"></span></p></strong></span>' +
+    '</li><br><li class = "Info" id = "dcountries"></li><li class = "Info" id = "dgenres"></li>' +
+    '<li class= "gray" id = "ddirectors"></li><li class= "gray" id ="dactor"></li></ul>' +
     '</div><div id="Summary"><section style ="height:auto" class ="summary" id ="summarydiv"><span id = "dsummary"></span><span id ="hiddenSummary"></span><br><em><b e ="show_hidden"></b></em></section></div></div>'
 document.body.onkeyup = Press;
 document.body.onclick = onClick;
@@ -154,14 +154,14 @@ var split = 280
         var data = {
             "link": json.alt,
             "mtitle": json.title,
-            "average": json.rating.average,
-            "countries": '国家：' + json.countries,
-            "genres": '类型：' + json.genres,
-            "directors": '导演：' + directors,
-            "actor": '演员：' + actors,
+            "daverage": json.rating.average,
+            "dcountries": '国家：' + json.countries,
+            "dgenres": '类型：' + json.genres,
+            "ddirectors": '导演：' + directors,
+            "dactor": '演员：' + actors,
             "dsummary": '<strong>简介：</strong><br>' + json.summary.substring(0, split),
             "hiddenSummary": json.summary.substring(split),
-            "stars": whichStar(json.rating.average),
+            "starsStyle": whichStar(json.rating.average),
             "imgsrc": json.images.large,
             "needsplit":json.summary.length >split ? 'inline':'none'
         }
@@ -181,8 +181,7 @@ var split = 280
         b.style['display'] = data.needsplit
         image.src = data.imgsrc
         title.href = data.link
-
-        stars.style['background-position-y'] = data.stars + "px"
+        stars.style['background-position-y'] = data.starsStyle + "px"
         if (allResults.current == allResults.movies[0].total - 1) {
             pageNext.style['display'] = 'none'
         } else {
