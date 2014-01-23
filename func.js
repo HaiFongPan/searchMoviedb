@@ -7,7 +7,7 @@
 var DomTree = '<span  class="prev"><a e="pre" style="display:none" e="pre"> &lt; 上一部</a></span>' +
     '<span class="next"><a e="next" style="" >下一部 &gt;</a></span>' +
     '<div id="Pic"><img class ="imgs" src="" width =90 height=130 /></div><div id="Content">' +
-    '<ul><li class="Info" >片名：<a e = "openmovie" title="" target="_blank" href="" ><span id = "mtitle"></span></a></li>' +
+    '<ul><li class="Info" >片名：<a title="" target="_blank" href="" ><span e = "openmovie" id = "mtitle"></span></a></li>' +
     '<li class = "Info"><span class="Stars" style="background-position: 0;0px;">' +
     '<strong><p class="average"><span id = "average"></span></p></strong></span>' +
     '</li><br><li class = "Info" id = "countries"></li><li class = "Info" id = "genres"></li>' +
@@ -64,7 +64,7 @@ var split = 280
                 var displayN = json.total > 1 ? '' : 'none'
                 GetMovieById(obj.id, rebuild, displayN)
             } else {
-                console.log("没有搜索到结果")
+                alert("没有搜索到该电影")
             }
         })
     }
