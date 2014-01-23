@@ -18,7 +18,7 @@
   float:right;
   text-decoration:none
 }
-#Pic {width:100px;padding: 20px 0px 0px 5px;height:170px;background:#f7f7f7;float:left;}
+#Pic {width:120px;padding: 20px 0px 0px 5px;height:170px;background:#f7f7f7;float:left;}
 #Pic .imgs{}
 #Content {width:280px;margin:5px 0px 0px -5px;height:160px;background:#f7f7f7;float:left;}
 #Summary {background-color:#EEEEEE;margin:auto; height:auto; width:400px; float:left;}
@@ -48,6 +48,10 @@
 #Content .ratings {
   margin:0px 0px 0px 8px;
   font-size: 13px
+}
+#Content ul{
+  margin:0px 0px 0px 0px;
+  padding: 0px 0px 0 15px;
 }
 #Summary .summary {
   list-style-type: none;
