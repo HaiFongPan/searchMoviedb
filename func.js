@@ -6,7 +6,7 @@
  */
 var DomTree = '<span  class="prev"><a e="pre" style="display:none" e="pre"> &lt; 上一部</a></span>' +
     '<span class="next"><a e="next" style="" >下一部 &gt;</a></span>' +
-    '<div id="Pic"><img class ="imgs" src="" width =92 height=132 /></div><div id="Content">' +
+    '<div id="Pic"><img class ="imgs" src="" width =90 height=130 /></div><div id="Content">' +
     '<ul><li class="Info" >片名：<a e = "openmovie" title="" target="_blank" href="" ><span id = "mtitle"></span></a></li>' +
     '<li class = "Info"><span class="Stars" style="background-position: 0;0px;">' +
     '<strong><p class="average"><span id = "average"></span></p></strong></span>' +
@@ -162,7 +162,7 @@ var split = 280
             "dsummary": '<strong>简介：</strong><br>' + json.summary.substring(0, split),
             "hiddenSummary": json.summary.substring(split),
             "stars": whichStar(json.rating.average),
-            "imgsrc": json.images.small,
+            "imgsrc": json.images.large,
             "needsplit":json.summary.length >split ? 'inline':'none'
         }
         return data
