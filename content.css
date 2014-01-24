@@ -20,7 +20,8 @@
 }
 #Pic {width:125px;padding: 20px 0px 0px 10px;height:170px;background:#f7f7f7;float:left;}
 #Pic .imgs{
-  width: 80%
+  width: 80%;
+  height: 80%
 }
 #Content {width:270px;margin:5px 0px 0px -5px;height:160px;background:#f7f7f7;float:left;}
 #Summary {background-color:#EEEEEE;margin:auto; height:auto; width:400px; float:left;}
