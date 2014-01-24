@@ -4,9 +4,9 @@
  *3. 通过api获取对应id的具体内容
  *4. 构建DOM树，显示
  */
-var DomTree = '<span  class="prev"><a e="pre" style="display:none" e="pre"> &lt; 上一部</a></span>' +
+var DomTree = '<span  class="prev"><a e="pre" style="visibility:none" e="pre"> &lt; 上一部</a></span>' +
     '<span class="next"><a e="next" style="" >下一部 &gt;</a></span>' +
-    '<div id="Pic"><img class ="imgs" src="" width =95 /></div><div id="Content">' +
+    '<div id="Pic"><img src="" width="92" /></div><div id="Content">' +
     '<ul><li class="Info" >片名：<a title="" target="_blank" href="" ><span e = "openmovie" id = "mtitle"></span></a></li>' +
     '<li class = "Info"><span class="Stars">' +
     '<strong><p class="average"><span id = "daverage"></span></p></strong></span>' +
@@ -61,7 +61,7 @@ var split = 280
             if (json.total > 0) {
                 allResults.movies.push(json)
                 var obj = json.subjects[0]
-                var displayN = json.total > 1 ? '' : 'none'
+                var displayN = json.total > 1 ? 'visible' : 'hidden'
                 GetMovieById(obj.id, rebuild, displayN)
             } else {
                 alert("没有搜索到该电影")
@@ -170,7 +170,7 @@ var split = 280
 
     function loadData(data) {
         var title = doubanMovieDom.getElementsByTagName("a")[2]
-        var image = doubanMovieDom.getElementsByClassName("imgs")[0]
+        var image = doubanMovieDom.getElementsByTagName("img")[0]
         var stars = doubanMovieDom.getElementsByClassName("Stars")[0]
         var pagePre = doubanMovieDom.getElementsByTagName("a")[0]
         var pageNext = doubanMovieDom.getElementsByTagName("a")[1]
@@ -183,14 +183,14 @@ var split = 280
         title.href = data.link
         stars.style['background-position-y'] = data.starsStyle + "px"
         if (allResults.current == allResults.movies[0].total - 1) {
-            pageNext.style['display'] = 'none'
+            pageNext.style['visibility'] = 'hidden'
         } else {
-            pageNext.style['display'] = ''
+            pageNext.style['visibility'] = 'visible'
         }
         if (allResults.current == 0) {
-            pagePre.style['display'] = 'none'
+            pagePre.style['visibility'] = 'hidden'
         } else {
-            pagePre.style['display'] = ''
+            pagePre.style['visibility'] = 'visible'
         }
         $('div#movie').loadJSON(data);
     }
